@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+FAILED_TEST=$(grep -o -i "\[ \]" ./logs/phpunit.log | wc -l)
+if [ $FAILED_TEST == 0 ]
+then
+    echo ">>> No failed tests found."
+else
+    echo ">>> Failed tests found."
+    echo ">>> Cancelling push..."
+    exit 1
+fi

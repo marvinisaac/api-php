@@ -2,6 +2,6 @@ Api (Test\Api)
  [x] Unknown route should return 404
 
 User (Test\User)
- [ ] Incomplete requests should return 400 with error message
- [ ] Complete requests should return 200 with original input
+ [x] Incomplete requests should return 400 with error message
+ [x] Complete requests should return 200 with original input
 

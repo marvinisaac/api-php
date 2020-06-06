@@ -9,7 +9,8 @@
     "autoload": {
         "psr-4": {
             "Api\\": "src/",
-            "Test\\":"tests/"
+            "Test\\":"tests/",
+            "User\\":"src/Resource/User/"
         }
     },
     "require-dev": {
