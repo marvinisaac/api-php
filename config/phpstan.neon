@@ -1,0 +1,21 @@
+parameters:
+	autoload_files:
+		- ../vendor/autoload.php
+
+	# Enable basic array return type instead of specific type of array (i.e. int[])
+	checkMissingIterableValueType: false
+
+	ignoreErrors:
+		# Ignore "inaccessible array offset" errors when setting up Slim's container
+		- "#Cannot access offset [a-zA-Z0-9\\_']+ on Psr\\\\Container\\\\ContainerInterface.#"
+
+		# Ignore Eloquent-related errors
+		# TODO Find a way to fix errors instead of ignoring them
+		- "#Call to an undefined static method Illuminate\\\\Database\\\\Eloquent\\\\Model::[a-zA-Z0-9()]+.#"
+		- "#Property [a-zA-Z0-9]+\\\\Model\\\\[a-zA-Z0-9]+::[a-zA-Z0-9$]+ has no typehint specified.#"
+
+	level: max
+
+	paths:
+		- ../src
+		- ../tests

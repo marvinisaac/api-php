@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+source .env
+export DOCKER_NETWORK \
+    MYSQL_DATABASE \
+    MYSQL_HOSTNAME \
+    MYSQL_PASSWORD \
+    MYSQL_USERNAME
+
+docker run --rm \
+    --network $DOCKER_NETWORK \
+    flyway/flyway:6.3 \
+        repair \
+        -url=jdbc:mysql://$MYSQL_HOSTNAME:3306/$MYSQL_DATABASE \
+        -schemas=$MYSQL_DATABASE \
+        -user=$MYSQL_USERNAME \
+        -password=$MYSQL_PASSWORD
+
+docker run --rm \
+    -v $PWD/migrations:/flyway/sql \
+    --network $DOCKER_NETWORK \
+    flyway/flyway:6.3 \
+        migrate \
+        -url=jdbc:mysql://$MYSQL_HOSTNAME:3306/$MYSQL_DATABASE \
+        -schemas=$MYSQL_DATABASE \
+        -user=$MYSQL_USERNAME \
+        -password=$MYSQL_PASSWORD

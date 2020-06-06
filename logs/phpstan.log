@@ -1,0 +1,11 @@
+{
+    "totals": {
+        "errors": 2,
+        "file_errors": 0
+    },
+    "files": [],
+    "errors": [
+        "Ignored error pattern #Call to an undefined static method Illuminate\\\\Database\\\\Eloquent\\\\Model::[a-zA-Z0-9()]+.# was not matched in reported errors.",
+        "Ignored error pattern #Property [a-zA-Z0-9]+\\\\Model\\\\[a-zA-Z0-9]+::[a-zA-Z0-9$]+ has no typehint specified.# was not matched in reported errors."
+    ]
+}

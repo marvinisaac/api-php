@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '>>> Setting up tests...'
+
+    # Setup environment
+    source .env
+    export DOCKER_IMAGE_PHP \
+        DOCKER_NETWORK
+}
+
+function test()
+{
+    echo '>>> Testing...'
+
+    docker run --rm \
+        -v $PWD/:/var/www/html \
+        -v $PWD/logs/:/var/logs \
+        --network $DOCKER_NETWORK \
+        $DOCKER_IMAGE_PHP \
+        ./vendor/bin/phpunit ./tests --testdox \
+            --testdox-text /var/logs/phpunit.log
+}
+
+setup
+test

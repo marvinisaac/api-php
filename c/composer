@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+docker run --interactive --rm \
+    --name composer \
+    --volume $PWD:/app \
+    composer:1.9 \
+    composer $@
+
+docker run -it --rm \
+    --name composer \
+    --volume $PWD:/app \
+    composer:1.9 \
+    composer dump-autoload -o

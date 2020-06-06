@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+function isTestSuccess()
+{
+    FAILED_TEST=$(grep -o -i "\[ \]" ./logs/phpunit.log | wc -l)
+    if [ $FAILED_TEST == 0 ]
+    then
+        git add ./logs/phpunit.log
+        ./c/version patch
+    else
+        echo ">>> Cancelling commit..."
+        exit 1
+    fi
+}
+
+function addAnalyseLogs()
+{
+    git add ./logs/phpstan.log
+}
+
+
+echo ">>> Checking commit..."
+./c/test
+isTestSuccess
+./c/analyse
+addAnalyseLogs

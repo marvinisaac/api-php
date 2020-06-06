@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Get current version from VERSION.MD
+VERSION=$(head -n 1 VERSION.MD)
+
+# Bump version and write to VERSION.MD
+./c/semver bump $1 $VERSION > VERSION.MD
+
+git add VERSION.MD
