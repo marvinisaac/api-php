@@ -69,7 +69,7 @@ final class User extends Resource
 
         $result = $result['details'][0] ?? [];
         if (count($result) === 0) {
-            return $this->output->error(400, 'Username not found.');
+            return $this->output->error(404, 'Username not found.');
         }
 
         $fieldPublic = [
@@ -82,17 +82,17 @@ final class User extends Resource
 
     public function updateBy(string $identifier, array $input) : Response
     {
+        $userSearch = $this->run('GET', '/user/' . $identifier);
+        if ($userSearch['status'] !== 200) {
+            return $this->output->error(404, 'Username not found.');
+        }
+
         $inputRequired = [
             'password',
         ];
         $inputMissing = $this->checkRequired($inputRequired, $input);
         if (count($inputMissing) > 0) {
             return $this->handleInputMissing($inputMissing);
-        }
-
-        $userSearch = $this->run('GET', '/user/' . $identifier);
-        if ($userSearch['status'] !== 200) {
-            return $this->output->error(400, 'Username not found.');
         }
 
         $column = 'username';
