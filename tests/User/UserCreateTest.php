@@ -1,13 +1,13 @@
 <?php
 
-    namespace Test;
+    namespace Test\User;
 
     use \PHPUnit\Framework\TestCase;
     use \Slim\App;
     use Api\Api;
     use Test\ApiTestHelper as Helper;
 
-class UserTest extends TestCase
+class UserCreateTest extends TestCase
 {
     protected App $api;
     protected Helper $helper;
@@ -21,7 +21,7 @@ class UserTest extends TestCase
         $this->testUsername = 'test' . time();
     }
 
-    public function testIncompleteRequestsShouldReturn400WithErrorMessage() : void
+    public function testRequestWithInvalidInputShouldReturn400() : void
     {
         $requestsIncomplete = [
             [
@@ -56,7 +56,7 @@ class UserTest extends TestCase
         }
     }
 
-    public function testCompleteRequestsShouldReturn200WithUsername() : void
+    public function testRequestWithValidInputShouldReturn200() : void
     {
         $requestComplete = [
             'username' => $this->testUsername,
@@ -72,59 +72,5 @@ class UserTest extends TestCase
         $this->assertSame(200, $responseStatus);
         $this->assertArrayHasKey('username', $responseBody);
         $this->assertSame($requestComplete['username'], $responseBody['username']);
-    }
-
-    public function testReadAllRecordsShouldReturn200WithAllUsers() : void
-    {
-        $request = $this->helper->prepareRequest('GET', '/user');
-        $this->api->getContainer()['request'] = $request;
-        
-        $response = $this->api->run(true);
-        $responseBody = json_decode((string)$response->getBody(), true);
-        $responseStatus = $response->getStatusCode();
-
-        $this->assertSame(200, $responseStatus);
-        foreach ($responseBody as $user) {
-            $this->assertArrayHasKey('username', $user);
-            $this->assertArrayHasKey('created_at', $user);
-        }
-    }
-
-    public function testReadSingleRecordShouldReturn200WithSpecifiedUser() : void
-    {
-        $request = $this->helper->prepareRequest('GET', '/user/' . $this->testUsername);
-        $this->api->getContainer()['request'] = $request;
-        
-        $response = $this->api->run(true);
-        $responseBody = json_decode((string)$response->getBody(), true);
-        $responseStatus = $response->getStatusCode();
-
-        $this->assertSame(200, $responseStatus);
-        $this->assertArrayHasKey('username', $responseBody);
-        $this->assertArrayHasKey('created_at', $responseBody);
-    }
-    
-    public function testUpdateSingleRecordWithMissingInputShouldReturn400() : void
-    {
-        $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername);
-        $this->api->getContainer()['request'] = $request;
-        
-        $response = $this->api->run(true);
-        $responseStatus = $response->getStatusCode();
-
-        $this->assertSame(400, $responseStatus);
-    }
-    
-    public function testUpdateSingleRecordWithCompleteInputShouldReturn200() : void
-    {
-        $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername, [
-            'password' => 'password',
-        ]);
-        $this->api->getContainer()['request'] = $request;
-        
-        $response = $this->api->run(true);
-        $responseStatus = $response->getStatusCode();
-
-        $this->assertSame(200, $responseStatus);
     }
 }

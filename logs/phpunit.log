@@ -1,11 +1,18 @@
 Api (Test\Api)
  [x] Unknown route should return 404
 
-User (Test\User)
- [x] Incomplete requests should return 400 with error message
- [x] Complete requests should return 200 with username
- [x] Read all records should return 200 with all users
- [x] Read single record should return 200 with specified user
- [x] Update single record with missing input should return 400
- [x] Update single record with complete input should return 200
+User Create (Test\User\UserCreate)
+ [x] Request with invalid input should return 400
+ [x] Request with valid input should return 200
+
+User Read (Test\User\UserRead)
+ [ ] Request for invalid record should return 404
+ [x] Request for valid record should return 200
+ [x] Request for all records should return 200
+
+User Update (Test\User\UserUpdate)
+ [ ] Request with invalid username and missing input should return 404
+ [ ] Request with invalid username but valid input should return 404
+ [x] Request with missing input but valid username should return 400
+ [x] Request with valid username and valid input should return 200
 
