@@ -104,9 +104,22 @@ class UserTest extends TestCase
         $this->assertArrayHasKey('created_at', $responseBody);
     }
     
-    public function testUpdateSingleRecordShouldReturn200() : void
+    public function testUpdateSingleRecordWithMissingInputShouldReturn400() : void
     {
         $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername);
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(200, $responseStatus);
+    }
+    
+    public function testUpdateSingleRecordWithCompleteInputShouldReturn200() : void
+    {
+        $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername, [
+            'password' => 'password',
+        ]);
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
