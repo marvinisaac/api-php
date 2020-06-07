@@ -5,6 +5,10 @@ User Create (Test\User\UserCreate)
  [x] Request with invalid input should return 400
  [x] Request with valid input should return 200
 
+User Delete (Test\User\UserDelete)
+ [ ] Request for invalid record should return 404
+ [ ] Request for valid record should return 200
+
 User Read (Test\User\UserRead)
  [x] Request for invalid record should return 404
  [x] Request for valid record should return 200
