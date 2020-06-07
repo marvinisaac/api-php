@@ -73,4 +73,21 @@ class Mysql implements DatabaseInterface
             ];
         }
     }
+
+    public function updateBy(string $column, string $identifier, array $input) : array
+    {
+        try {
+            $details = $this->model::where($column, $identifier)
+                ->update($input);
+            return [
+                'success' => true,
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
+        }
+    }
 }

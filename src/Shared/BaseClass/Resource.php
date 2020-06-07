@@ -47,6 +47,13 @@ class Resource implements ResourceInterface
         return $this->output->success(200, $details);
     }
 
+    public function updateBy(string $identifier, array $input): Response
+    {
+        $column = 'id';
+        $details = $this->database->updateBy($column, $identifier, $input);
+        return $this->output->success(200, $details);
+    }
+
     protected function checkRequired(array $inputRequired, array $input) : array
     {
         $inputMissing = [];

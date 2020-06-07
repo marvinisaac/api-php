@@ -39,6 +39,15 @@ class Input implements InputInterface
         return $this->resource->readBy($id);
     }
 
+    public function updateBy(Request $request, Response $response, array $args) : Response
+    {
+        $output = $this->setOutput($response);
+
+        $input = (array) $request->getParsedBody();
+        $identifier = $args['identifier'];
+        return $this->resource->updateBy($identifier, $input);
+    }
+
     protected function logError(string $errorMessage) : void
     {
         if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION' &&

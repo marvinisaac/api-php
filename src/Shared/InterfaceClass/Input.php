@@ -12,4 +12,6 @@ interface Input
     public function readAll(Request $request, Response $response, array $args) : Response;
 
     public function readBy(Request $request, Response $response, array $args) : Response;
+
+    public function updateBy(Request $request, Response $response, array $args) : Response;
 }

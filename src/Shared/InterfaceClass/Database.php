@@ -15,4 +15,6 @@ interface Database
     public function readAll() : array;
 
     public function readBy(string $column, string $identifier) : array;
+
+    public function updateBy(string $column, string $identifier, array $input) : array;
 }
