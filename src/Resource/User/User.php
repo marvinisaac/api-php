@@ -79,4 +79,32 @@ final class User extends Resource
         $resultFiltered = $this->filterReadResults($fieldPublic, $result);
         return $this->output->success(200, $resultFiltered);
     }
+
+    public function updateBy(string $identifier, array $input) : Response
+    {
+        $inputRequired = [
+            'password',
+        ];
+        $inputMissing = $this->checkRequired($inputRequired, $input);
+        if (count($inputMissing) > 0) {
+            return $this->handleInputMissing($inputMissing);
+        }
+
+        $userSearch = $this->run('GET', '/user/' . $identifier);
+        if ($userSearch['status'] !== 200) {
+            return $this->output->error(400, 'Username not found.');
+        }
+
+        $column = 'username';
+        $user = [
+            'password' => password_hash($input['password'], PASSWORD_DEFAULT),
+        ];
+        $result = $this->database->updateBy($column, $identifier, $user);
+        
+        if (!$result['success'] ?? false) {
+            return $this->output->error(500, 'Database error.');
+        }
+
+        return $this->output->success(200);
+    }
 }
