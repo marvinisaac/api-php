@@ -36,4 +36,41 @@ class Mysql implements DatabaseInterface
             ];
         }
     }
+
+    public function readAll() : array
+    {
+        try {
+            $detailsAll = $this->model::get()
+                ->toArray();
+            return [
+                'success' => true,
+                'details' => $detailsAll,
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
+        }
+    }
+
+    public function readBy(string $column, string $identifier) : array
+    {
+        try {
+            $details = $this->model::where($column, $identifier)
+                ->get()
+                ->toArray();
+            return [
+                'success' => true,
+                'details' => $details,
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
+        }
+    }
 }

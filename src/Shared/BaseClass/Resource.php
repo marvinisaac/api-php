@@ -34,6 +34,19 @@ class Resource implements ResourceInterface
         return $this->output->success(200, $input);
     }
 
+    public function readAll() : Response
+    {
+        $detailsAll = $this->database->readAll();
+        return $this->output->success(200, $detailsAll);
+    }
+
+    public function readBy(string $identifier) : Response
+    {
+        $column = 'id';
+        $details = $this->database->readBy($column, $identifier);
+        return $this->output->success(200, $details);
+    }
+
     protected function checkRequired(array $inputRequired, array $input) : array
     {
         $inputMissing = [];
@@ -62,6 +75,17 @@ class Resource implements ResourceInterface
         }
 
         return $inputMissing;
+    }
+
+    protected function filterReadResults(array $fieldPublic, array $fieldResults) : array
+    {
+        foreach ($fieldResults as $field => $value) {
+            if (!in_array($field, $fieldPublic)) {
+                unset($fieldResults[$field]);
+            }
+        }
+
+        return $fieldResults;
     }
 
     protected function handleInputMissing(array $inputMissing) : Response

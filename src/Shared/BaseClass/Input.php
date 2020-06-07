@@ -25,6 +25,20 @@ class Input implements InputInterface
         return $this->resource->create($input);
     }
 
+    public function readAll(Request $request, Response $response, array $args) : Response
+    {
+        $output = $this->setOutput($response);
+        return $this->resource->readAll();
+    }
+
+    public function readBy(Request $request, Response $response, array $args) : Response
+    {
+        $output = $this->setOutput($response);
+        
+        $id = $args['identifier'];
+        return $this->resource->readBy($id);
+    }
+
     protected function logError(string $errorMessage) : void
     {
         if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION' &&

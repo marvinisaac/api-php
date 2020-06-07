@@ -8,4 +8,8 @@
 interface Input
 {
     public function create(Request $request, Response $response, array $args) : Response;
+
+    public function readAll(Request $request, Response $response, array $args) : Response;
+
+    public function readBy(Request $request, Response $response, array $args) : Response;
 }

@@ -10,4 +10,8 @@ interface Resource
     public function setOutput(Output $output) : void;
     
     public function create(array $input) : Response;
+
+    public function readAll() : Response;
+
+    public function readBy(string $identifier) : Response;
 }
