@@ -3,5 +3,5 @@ Api (Test\Api)
 
 User (Test\User)
  [x] Incomplete requests should return 400 with error message
- [x] Complete requests should return 200 with original input
+ [x] Complete requests should return 200 with username
 

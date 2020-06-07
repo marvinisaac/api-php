@@ -30,7 +30,7 @@ class UserTest extends TestCase
                 'error_message' => 'Missing input: username, password',
             ], [
                 'body' => [
-                    'username' => 'username',
+                    'username' => 'test' . time(),
                 ],
                 'error_message' => 'Missing input: password',
             ], [
@@ -54,10 +54,10 @@ class UserTest extends TestCase
         }
     }
 
-    public function testCompleteRequestsShouldReturn200WithOriginalInput() : void
+    public function testCompleteRequestsShouldReturn200WithUsername() : void
     {
         $requestComplete = [
-            'username' => 'username',
+            'username' => 'test' . time(),
             'password' => 'password',
         ];
         $request = $this->helper->prepareRequest('POST', '/user', $requestComplete);
@@ -69,8 +69,6 @@ class UserTest extends TestCase
 
         $this->assertSame(200, $responseStatus);
         $this->assertArrayHasKey('username', $responseBody);
-        $this->assertArrayHasKey('password', $responseBody);
         $this->assertSame($requestComplete['username'], $responseBody['username']);
-        $this->assertSame($requestComplete['password'], $responseBody['password']);
     }
 }

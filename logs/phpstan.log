@@ -1,21 +1,8 @@
 {
     "totals": {
-        "errors": 1,
-        "file_errors": 1
+        "errors": 0,
+        "file_errors": 0
     },
-    "files": {
-        "/app/src/Resource/User/UserModel.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Property User\\UserModel::$fillable has no typehint specified.",
-                    "line": 10,
-                    "ignorable": true
-                }
-            ]
-        }
-    },
-    "errors": [
-        "Ignored error pattern #Property [a-zA-Z0-9]+\\\\Model\\\\[a-zA-Z0-9]+::[a-zA-Z0-9$]+ has no typehint specified.# was not matched in reported errors."
-    ]
+    "files": [],
+    "errors": []
 }

@@ -10,12 +10,19 @@
     use \Slim\Http\Response;
     use \Slim\Http\Uri;
     use Api\Api;
+    use Api\Shared\InterfaceClass\Database;
     use Api\Shared\InterfaceClass\Output;
     use Api\Shared\InterfaceClass\Resource as ResourceInterface;
 
 class Resource implements ResourceInterface
 {
+    protected Database $database;
     protected Output $output;
+
+    public function setDatabase(Database $database) : void
+    {
+        $this->database = $database;
+    }
 
     public function setOutput(Output $output) : void
     {

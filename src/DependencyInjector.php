@@ -5,7 +5,9 @@
     use \Illuminate\Database\Capsule\Manager as CapsuleManager;
     use \Slim\App;
     use Api\Shared\BaseClass\Input;
+    use Api\Shared\BaseClass\Mysql;
     use User\User;
+    use User\UserModel;
 
 final class DependencyInjector
 {
@@ -23,7 +25,10 @@ final class DependencyInjector
         };
 
         $container['User'] = function () {
+            $database = new Mysql();
+            $database->setModel(new UserModel());
             $resource = new User();
+            $resource->setDatabase($database);
             return new Input($resource);
         };
 
