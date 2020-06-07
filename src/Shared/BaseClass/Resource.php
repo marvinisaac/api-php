@@ -100,4 +100,48 @@ class Resource implements ResourceInterface
         $errorMessage = 'Missing input: ' . implode(', ', $inputMissing);
         return $this->output->error(400, $errorMessage);
     }
+
+    protected function run(string $method = 'GET', string $uri = '/', array $requestBody = []) : array
+    {
+        $api = (new Api())->get();
+
+        // Prepare environment
+        if ($method === 'PATCH' ||
+            $method === 'POST'
+        ) {
+            $environment = Environment::mock([
+                'REQUEST_METHOD' => $method,
+                'REQUEST_URI' => $uri,
+                // Add required request header. Without it, request body is ignored
+                'CONTENT_TYPE' => 'application/json',
+            ]);
+        } else {
+            $environment = Environment::mock([
+                'REQUEST_METHOD' => $method,
+                'REQUEST_URI' => $uri,
+            ]);
+        }
+
+        // Prepare request
+        $uri = Uri::createFromEnvironment($environment);
+        $headers = Headers::createFromEnvironment($environment);
+        $cookies = [];
+        $serverParams = $environment->all();
+        $body = new RequestBody();
+        if (count($requestBody) > 0) {
+            $requestBodyParsed = (string) json_encode($requestBody);
+            $body->write($requestBodyParsed);
+        }
+        $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+
+        // Run request and return response
+        $api->getContainer()['request'] = $request;
+        $response = $api->run(true);
+        $responseStatus = $response->getStatusCode();
+        $responseBody = json_decode((string)$response->getBody(), true);
+        return [
+            'status' => $responseStatus,
+            'body' => $responseBody,
+        ];
+    }
 }
