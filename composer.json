@@ -20,6 +20,7 @@
     },
     "require": {
         "slim/slim": "^3",
-        "vlucas/phpdotenv": "^3"
+        "vlucas/phpdotenv": "^3",
+        "illuminate/database": "^6"
     }
 }

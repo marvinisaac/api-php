@@ -13,6 +13,15 @@ final class DependencyInjector
     {
         $container = $api->getContainer();
 
+        $databaseSettings = $container->get('settings')['database'];
+        $capsule = new CapsuleManager();
+        $capsule->addConnection($databaseSettings, 'default');
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+        $container['database'] = function ($container) use ($capsule) {
+            return $capsule;
+        };
+
         $container['User'] = function () {
             $resource = new User();
             return new Input($resource);

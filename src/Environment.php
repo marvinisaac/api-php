@@ -8,7 +8,12 @@ final class Environment
 {
     public static function set() : void
     {
-        $variables = [];
+        $variables = [
+            'MYSQL_HOSTNAME',
+            'MYSQL_DATABASE',
+            'MYSQL_USERNAME',
+            'MYSQL_PASSWORD',
+        ];
 
         try {
             $env = Dotenv::create(__DIR__ . '/../');

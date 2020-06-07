@@ -1,11 +1,21 @@
 {
     "totals": {
-        "errors": 2,
-        "file_errors": 0
+        "errors": 1,
+        "file_errors": 1
     },
-    "files": [],
+    "files": {
+        "/app/src/Resource/User/UserModel.php": {
+            "errors": 1,
+            "messages": [
+                {
+                    "message": "Property User\\UserModel::$fillable has no typehint specified.",
+                    "line": 10,
+                    "ignorable": true
+                }
+            ]
+        }
+    },
     "errors": [
-        "Ignored error pattern #Call to an undefined static method Illuminate\\\\Database\\\\Eloquent\\\\Model::[a-zA-Z0-9()]+.# was not matched in reported errors.",
         "Ignored error pattern #Property [a-zA-Z0-9]+\\\\Model\\\\[a-zA-Z0-9]+::[a-zA-Z0-9$]+ has no typehint specified.# was not matched in reported errors."
     ]
 }
