@@ -37,4 +37,46 @@ final class User extends Resource
         unset($input['password']);
         return $this->output->success(200, $input);
     }
+
+    public function readAll() : Response
+    {
+        $result = $this->database->readAll();
+        
+        if (!$result['success'] ?? false) {
+            return $this->output->error(500, 'Database error.');
+        }
+
+        $resultAll = $result['details'];
+        $fieldPublic = [
+            'username',
+            'created_at',
+        ];
+        $resultFiltered = [];
+        foreach ($resultAll as $result) {
+            $resultFiltered[] = $this->filterReadResults($fieldPublic, $result);
+        }
+        return $this->output->success(200, $resultFiltered);
+    }
+
+    public function readBy(string $identifier) : Response
+    {
+        $column = 'username';
+        $result = $this->database->readBy($column, $identifier);
+        
+        if (!$result['success'] ?? false) {
+            return $this->output->error(500, 'Database error.');
+        }
+
+        $result = $result['details'][0] ?? [];
+        if (count($result) === 0) {
+            return $this->output->error(400, 'Username not found.');
+        }
+
+        $fieldPublic = [
+            'username',
+            'created_at',
+        ];
+        $resultFiltered = $this->filterReadResults($fieldPublic, $result);
+        return $this->output->success(200, $resultFiltered);
+    }
 }

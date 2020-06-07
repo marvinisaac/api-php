@@ -10,6 +10,15 @@ final class Router
     {
         $api->group('/user', function (App $api) {
             $api->post('', 'User:create');
+
+            /**
+             * NOTE
+             * These endpoints are ONLY FOR DEMONSTRATION.
+             * The following endpoints are VERY dangerous.
+             * User data should not be readable like this.
+             */
+            $api->get('', 'User:readAll');
+            $api->get('/{identifier:[a-z0-9]+}', 'User:readBy');
         });
 
         $api->any('/[{path:.*}]', function ($request, $response, $args) {

@@ -4,6 +4,6 @@ Api (Test\Api)
 User (Test\User)
  [x] Incomplete requests should return 400 with error message
  [x] Complete requests should return 200 with username
- [ ] Read all records should return 200 with all users
- [ ] Read single record should return 200 with specified user
+ [x] Read all records should return 200 with all users
+ [x] Read single record should return 200 with specified user
 
