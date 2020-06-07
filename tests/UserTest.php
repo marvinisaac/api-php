@@ -112,7 +112,7 @@ class UserTest extends TestCase
         $response = $this->api->run(true);
         $responseStatus = $response->getStatusCode();
 
-        $this->assertSame(200, $responseStatus);
+        $this->assertSame(400, $responseStatus);
     }
     
     public function testUpdateSingleRecordWithCompleteInputShouldReturn200() : void
