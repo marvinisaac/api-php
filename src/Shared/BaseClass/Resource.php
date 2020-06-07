@@ -14,10 +14,18 @@
     use Api\Shared\InterfaceClass\Output;
     use Api\Shared\InterfaceClass\Resource as ResourceInterface;
 
-class Resource implements ResourceInterface
+abstract class Resource implements ResourceInterface
 {
     protected Database $database;
     protected Output $output;
+    
+    abstract public function create(array $input) : Response;
+
+    abstract public function readAll() : Response;
+
+    abstract public function readBy(string $identifier) : Response;
+
+    abstract public function updateBy(string $identifier, array $input): Response;
 
     public function setDatabase(Database $database) : void
     {
@@ -27,31 +35,6 @@ class Resource implements ResourceInterface
     public function setOutput(Output $output) : void
     {
         $this->output = $output;
-    }
-    
-    public function create(array $input) : Response
-    {
-        return $this->output->success(200, $input);
-    }
-
-    public function readAll() : Response
-    {
-        $detailsAll = $this->database->readAll();
-        return $this->output->success(200, $detailsAll);
-    }
-
-    public function readBy(string $identifier) : Response
-    {
-        $column = 'id';
-        $details = $this->database->readBy($column, $identifier);
-        return $this->output->success(200, $details);
-    }
-
-    public function updateBy(string $identifier, array $input): Response
-    {
-        $column = 'id';
-        $details = $this->database->updateBy($column, $identifier, $input);
-        return $this->output->success(200, $details);
     }
 
     protected function checkRequired(array $inputRequired, array $input) : array
