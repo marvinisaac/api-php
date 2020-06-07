@@ -6,4 +6,5 @@ User (Test\User)
  [x] Complete requests should return 200 with username
  [x] Read all records should return 200 with all users
  [x] Read single record should return 200 with specified user
+ [ ] Update single record should return 200
 
