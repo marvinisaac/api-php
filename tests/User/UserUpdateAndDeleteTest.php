@@ -7,7 +7,7 @@
     use Api\Api;
     use Test\ApiTestHelper as Helper;
 
-class UserUpdateTest extends TestCase
+class UserUpdateAndDeleteTest extends TestCase
 {
     protected App $api;
     protected Helper $helper;
@@ -21,7 +21,7 @@ class UserUpdateTest extends TestCase
         $this->testUsername = 'test' . time();
     }
     
-    public function testRequestWithInvalidUsernameAndMissingInputShouldReturn404() : void
+    public function testUpdateRequestWithInvalidUsernameAndMissingInputShouldReturn404() : void
     {
         $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername . 'x');
         $this->api->getContainer()['request'] = $request;
@@ -35,7 +35,7 @@ class UserUpdateTest extends TestCase
         $this->assertSame('Username not found.', $responseBody['error_message']);
     }
     
-    public function testRequestWithInvalidUsernameButValidInputShouldReturn404() : void
+    public function testUpdateRequestWithInvalidUsernameButValidInputShouldReturn404() : void
     {
         $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername . 'x', [
             'password' => 'password',
@@ -51,7 +51,7 @@ class UserUpdateTest extends TestCase
         $this->assertSame('Username not found.', $responseBody['error_message']);
     }
     
-    public function testRequestWithMissingInputButValidUsernameShouldReturn400() : void
+    public function testUpdateRequestWithMissingInputButValidUsernameShouldReturn400() : void
     {
         $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername);
         $this->api->getContainer()['request'] = $request;
@@ -65,11 +65,36 @@ class UserUpdateTest extends TestCase
         $this->assertSame('Missing input: password', $responseBody['error_message']);
     }
     
-    public function testRequestWithValidUsernameAndValidInputShouldReturn200() : void
+    public function testUpdateRequestWithValidUsernameAndValidInputShouldReturn200() : void
     {
         $request = $this->helper->prepareRequest('PATCH', '/user/' . $this->testUsername, [
             'password' => 'password',
         ]);
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(200, $responseStatus);
+    }
+
+    public function testDeleteRequestForInvalidRecordShouldReturn404() : void
+    {
+        $request = $this->helper->prepareRequest('DELETE', '/user/' . $this->testUsername . 'x');
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseBody = json_decode((string)$response->getBody(), true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(404, $responseStatus);
+        $this->assertArrayHasKey('error_message', $responseBody);
+        $this->assertSame('Username not found.', $responseBody['error_message']);
+    }
+
+    public function testDeleteRequestForValidRecordShouldReturn200() : void
+    {
+        $request = $this->helper->prepareRequest('DELETE', '/user/' . $this->testUsername);
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);

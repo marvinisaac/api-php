@@ -5,18 +5,16 @@ User Create (Test\User\UserCreate)
  [x] Request with invalid input should return 400
  [x] Request with valid input should return 200
 
-User Delete (Test\User\UserDelete)
- [ ] Request for invalid record should return 404
- [ ] Request for valid record should return 200
-
 User Read (Test\User\UserRead)
  [x] Request for invalid record should return 404
  [x] Request for valid record should return 200
  [x] Request for all records should return 200
 
-User Update (Test\User\UserUpdate)
- [x] Request with invalid username and missing input should return 404
- [x] Request with invalid username but valid input should return 404
- [x] Request with missing input but valid username should return 400
- [x] Request with valid username and valid input should return 200
+User Update And Delete (Test\User\UserUpdateAndDelete)
+ [x] Update request with invalid username and missing input should return 404
+ [x] Update request with invalid username but valid input should return 404
+ [x] Update request with missing input but valid username should return 400
+ [x] Update request with valid username and valid input should return 200
+ [ ] Delete request for invalid record should return 404
+ [ ] Delete request for valid record should return 200
 
