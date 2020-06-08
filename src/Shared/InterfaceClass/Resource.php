@@ -16,4 +16,6 @@ interface Resource
     public function readBy(string $identifier) : Response;
 
     public function updateBy(string $identifier, array $input): Response;
+
+    public function deleteBy(string $identifier) : Response;
 }

@@ -14,4 +14,6 @@ interface Input
     public function readBy(Request $request, Response $response, array $args) : Response;
 
     public function updateBy(Request $request, Response $response, array $args) : Response;
+
+    public function deleteBy(Request $request, Response $response, array $args) : Response;
 }

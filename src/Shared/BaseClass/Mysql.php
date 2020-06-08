@@ -90,4 +90,21 @@ class Mysql implements DatabaseInterface
             ];
         }
     }
+
+    public function deleteBy(string $column, string $identifier) : array
+    {
+        try {
+            $details = $this->model::where($column, $identifier)
+                ->delete();
+            return [
+                'success' => true,
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
+        }
+    }
 }

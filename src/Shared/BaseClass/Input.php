@@ -48,6 +48,14 @@ class Input implements InputInterface
         return $this->resource->updateBy($identifier, $input);
     }
 
+    public function deleteBy(Request $request, Response $response, array $args) : Response
+    {
+        $output = $this->setOutput($response);
+        
+        $id = $args['identifier'];
+        return $this->resource->deleteBy($id);
+    }
+
     protected function logError(string $errorMessage) : void
     {
         if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION' &&

@@ -27,6 +27,8 @@ abstract class Resource implements ResourceInterface
 
     abstract public function updateBy(string $identifier, array $input): Response;
 
+    abstract public function deleteBy(string $identifier) : Response;
+
     public function setDatabase(Database $database) : void
     {
         $this->database = $database;
