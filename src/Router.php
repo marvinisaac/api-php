@@ -20,7 +20,8 @@ final class Router
             $api->get('', 'User:readAll');
             $api->get('/{identifier:[a-z0-9]+}', 'User:readBy');
             
-            $api->patch('/{identifier:[a-z0-9]+}', 'User:updateBy'); 
+            $api->patch('/{identifier:[a-z0-9]+}', 'User:updateBy');
+            $api->delete('/{identifier:[a-z0-9]+}', 'User:deleteBy');
         });
 
         $api->any('/[{path:.*}]', function ($request, $response, $args) {

@@ -107,4 +107,20 @@ final class User extends Resource
 
         return $this->output->success(200);
     }
+
+    public function deleteBy(string $identifier) : Response
+    {
+        $userSearch = $this->run('GET', '/user/' . $identifier);
+        if ($userSearch['status'] !== 200) {
+            return $this->output->error(404, 'Username not found.');
+        }
+
+        $column = 'username';
+        $result = $this->database->deleteBy($column, $identifier);
+        if (!$result['success'] ?? false) {
+            return $this->output->error(500, 'Database error.');
+        }
+
+        return $this->output->success(200);
+    }
 }
