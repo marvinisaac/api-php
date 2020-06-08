@@ -1,0 +1,26 @@
+{
+    "name": "marvinisaac/api-php",
+    "authors": [
+        {
+            "name": "Marvin Isaac",
+            "email": "marvin@marvinisaac.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Api\\": "src/",
+            "Test\\":"tests/",
+            "User\\":"src/Resource/User/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "phpstan/phpstan": "^0.12",
+        "squizlabs/php_codesniffer": "^3"
+    },
+    "require": {
+        "slim/slim": "^3",
+        "vlucas/phpdotenv": "^3",
+        "illuminate/database": "^6"
+    }
+}

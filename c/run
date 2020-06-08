@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '>>> Setting up...'
+
+    # Setup environment
+    source .env
+    export DOCKER_NETWORK \
+        DOCKER_IMAGE_PHP \
+        DOCKER_IMAGE_NGINX \
+        DOCKER_PUBLIC_URL
+
+    # Setup nginx configuration
+    sed -i "/fastcgi_pass/c\        fastcgi_pass ${PWD##*/}-php:9000;" ./site.conf
+}
+
+function run()
+{
+    echo '>>> Running...'
+
+    docker run -d \
+        -e VIRTUAL_HOST=$DOCKER_PUBLIC_URL \
+        -e CERT_NAME=shared \
+        -v $PWD/:/var/www/html \
+        -v $PWD/site.conf:/etc/nginx/conf.d/site.conf \
+        --name ${PWD##*/}-nginx \
+        --network $DOCKER_NETWORK \
+        $DOCKER_IMAGE_NGINX
+
+    docker run \
+        -v $PWD/:/var/www/html \
+        --name ${PWD##*/}-php \
+        --network $DOCKER_NETWORK \
+        $DOCKER_IMAGE_PHP
+}
+
+function cleanup()
+{
+    echo '>>> Cleaning up...'
+    docker stop ${PWD##*/}-php
+    docker stop ${PWD##*/}-nginx
+    docker rm ${PWD##*/}-php
+    docker rm ${PWD##*/}-nginx
+    echo '>>> Cleanup done. Have a great day!'
+}
+
+setup
+run
+
+trap cleanup EXIT SIGINT

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+./c/migrate
+
+source .env
+export DOCKER_NETWORK \
+    DOCKER_IMAGE_PHP \
+    DOCKER_IMAGE_NGINX \
+    DOCKER_PUBLIC_URL
+
+docker stop ${PWD##*/}-nginx
+docker rm ${PWD##*/}-nginx
+
+docker stop ${PWD##*/}-php
+docker rm ${PWD##*/}-php
+
+# Replace fastcgi_pass line
+sed -i "/fastcgi_pass/c\        fastcgi_pass ${PWD##*/}-php:9000;" ./site.conf
+
+sudo rm -rf vendor
+
+./c/composer install --no-dev
+
+docker run -d \
+    -v $PWD/:/var/www/html \
+    --name ${PWD##*/}-php \
+    --network $DOCKER_NETWORK \
+    --restart always \
+    $DOCKER_IMAGE_PHP
+
+docker run -d \
+    -e VIRTUAL_HOST=$DOCKER_PUBLIC_URL \
+    -v $PWD/:/var/www/html \
+    -v $PWD/site.conf:/etc/nginx/conf.d/site.conf \
+    --link ${PWD##*/}-php \
+    --name ${PWD##*/}-nginx \
+    --network $DOCKER_NETWORK \
+    --restart always \
+    $DOCKER_IMAGE_NGINX

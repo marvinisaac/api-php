@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo ">>> Preparing commit..."
+./c/test
+git add ./logs/phpunit.log
+
+./c/version patch
+
+./c/analyse
+git add ./logs/phpstan.log

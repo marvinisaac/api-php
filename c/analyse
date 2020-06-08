@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '>>> Setting up analyser...'
+
+    # Setup environment
+    source .env
+    export DOCKER_IMAGE_PHP \
+        DOCKER_NETWORK
+}
+
+function analyse()
+{
+    echo '>>> Analysing...'
+
+    docker run --rm \
+        -v $PWD/:/app \
+        --network $DOCKER_NETWORK \
+        phpstan/phpstan \
+        analyse \
+            -c ./config/phpstan.neon \
+            --error-format prettyJson > logs/phpstan.log
+}
+
+setup
+analyse
