@@ -23,29 +23,26 @@ class SessionCreateTest extends TestCase
 
     public function testRequestWithInvalidInputShouldReturn400() : void
     {
+        $errorMessage = 'Invalid username and password combination.';
         $requestsIncomplete = [
             [
                 'body' => [
                     'username' => '',
                     'passsword' => '',
                 ],
-                'error_message' => 'Invalid username and password combination.',
             ], [
                 'body' => [
                     'username' => 'test' . time(),
                 ],
-                'error_message' => 'Invalid username and password combination.',
             ], [
                 'body' => [
                     'password' => 'password',
                 ],
-                'error_message' => 'Invalid username and password combination.',
             ], [
                 'body' => [
                     'username' => 'user' . time(),
                     'passsword' => 'pass' . time(),
                 ],
-                'error_message' => 'Invalid username and password combination.',
             ],
         ];
         foreach ($requestsIncomplete as $incomplete) {
@@ -58,7 +55,7 @@ class SessionCreateTest extends TestCase
     
             $this->assertSame(400, $responseStatus);
             $this->assertArrayHasKey('error_message', $responseBody);
-            $this->assertSame($incomplete['error_message'], $responseBody['error_message']);
+            $this->assertSame($errorMessage, $responseBody['error_message']);
         }
     }
 
