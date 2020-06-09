@@ -10,7 +10,8 @@
         "psr-4": {
             "Api\\": "src/",
             "Test\\":"tests/",
-            "User\\":"src/Resource/User/"
+            "User\\":"src/Resource/User/",
+            "Session\\":"src/Resource/Session/"
         }
     },
     "require-dev": {

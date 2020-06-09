@@ -69,6 +69,12 @@ abstract class Resource implements ResourceInterface
         return $inputMissing;
     }
 
+    protected function disabledOperation() :Response
+    {
+        $errorMessage = 'Disabled operation';
+        return $this->output->error(400, $errorMessage);
+    }
+
     protected function filterReadResults(array $fieldPublic, array $fieldResults) : array
     {
         foreach ($fieldResults as $field => $value) {

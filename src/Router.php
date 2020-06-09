@@ -24,6 +24,10 @@ final class Router
             $api->delete('/{identifier:[a-z0-9]+}', 'User:deleteBy');
         });
 
+        $api->group('/session', function (App $api) {
+            $api->post('', 'Session:create');
+        });
+
         $api->any('/[{path:.*}]', function ($request, $response, $args) {
             return $response->withStatus(404);
         });
