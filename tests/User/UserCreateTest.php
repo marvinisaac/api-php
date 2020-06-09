@@ -18,7 +18,7 @@ class UserCreateTest extends TestCase
         $_ENV['PHP_ENVIRONMENT'] = 'TEST';
         $this->api = (new Api())->get();
         $this->helper = new Helper();
-        $this->testUsername = 'test' . time();
+        $this->testUsername = 'test' . date('Ymdhi');
     }
 
     public function testRequestWithInvalidInputShouldReturn400() : void
