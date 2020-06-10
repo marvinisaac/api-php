@@ -5,9 +5,9 @@
     use \Slim\Http\Response;
     use Api\Shared\InterfaceClass\Output as OutputInterface;
 
-final class Output implements OutputInterface
+class Output implements OutputInterface
 {
-    private Response $response;
+    protected Response $response;
 
     public function __construct(Response $response)
     {

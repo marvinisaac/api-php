@@ -10,7 +10,7 @@
 
 class Input implements InputInterface
 {
-    private ResourceInterface $resource;
+    protected ResourceInterface $resource;
 
     public function __construct(ResourceInterface $resource)
     {
