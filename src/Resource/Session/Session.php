@@ -4,6 +4,8 @@
 
     use \Slim\Http\Response;
     use Api\Shared\BaseClass\Resource;
+    use Session\SessionToken;
+    use Session\SessionOutput;
 
 final class Session extends Resource
 {
@@ -18,12 +20,17 @@ final class Session extends Resource
             return $this->output->error(400, 'Invalid username and password combination.');
         }
 
-        $userSearch = $this->run('GET', '/user/' . $input['username']);
+        $username = $input['username'];
+        $userSearch = $this->run('GET', '/user/' . $username);
         if ($userSearch['status'] !== 200) {
             return $this->output->error(400, 'Invalid username and password combination.');
         }
 
-        return $this->output->success(200);
+        $tokenService = new SessionToken();
+        $token = [
+            'token' => $tokenService->createFor($username)
+        ];
+        return $this->output->success(200, $token);
     }
 
     public function readAll() : Response

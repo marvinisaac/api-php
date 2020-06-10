@@ -9,6 +9,7 @@
     use User\User;
     use User\UserModel;
     use Session\Session;
+    use Session\SessionInput;
 
 final class DependencyInjector
 {
@@ -35,7 +36,7 @@ final class DependencyInjector
 
         $container['Session'] = function () {
             $resource = new Session();
-            return new Input($resource);
+            return new SessionInput($resource);
         };
 
         return $api;
