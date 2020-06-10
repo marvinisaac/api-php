@@ -2,8 +2,8 @@ Api (Test\Api)
  [x] Unknown route should return 404
 
 Session Create (Test\Session\SessionCreate)
- [x] Request with invalid input should return 400
- [x] Request with valid input should return 200
+ [ ] Request with invalid input should return 400
+ [ ] Request with valid input should return 200
 
 User Create (Test\User\UserCreate)
  [x] Request with invalid input should return 400
