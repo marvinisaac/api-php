@@ -1,64 +1,8 @@
 {
     "totals": {
         "errors": 0,
-        "file_errors": 6
+        "file_errors": 0
     },
-    "files": {
-        "/app/src/DependencyInjector.php": {
-            "errors": 2,
-            "messages": [
-                {
-                    "message": "Instantiated class Session\\Session not found.",
-                    "line": 38,
-                    "ignorable": true
-                },
-                {
-                    "message": "Instantiated class Session\\SessionInput not found.",
-                    "line": 39,
-                    "ignorable": true
-                }
-            ]
-        },
-        "/app/src/Resource/Session/Session.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Class Session\\Session was not found while trying to analyse it - autoloading is probably not configured properly.",
-                    "line": null,
-                    "ignorable": false
-                }
-            ]
-        },
-        "/app/src/Resource/Session/SessionInput.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Class Session\\SessionInput was not found while trying to analyse it - autoloading is probably not configured properly.",
-                    "line": null,
-                    "ignorable": false
-                }
-            ]
-        },
-        "/app/src/Resource/Session/SessionOutput.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Class Session\\SessionOutput was not found while trying to analyse it - autoloading is probably not configured properly.",
-                    "line": null,
-                    "ignorable": false
-                }
-            ]
-        },
-        "/app/src/Resource/Session/SessionToken.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Class Session\\SessionToken was not found while trying to analyse it - autoloading is probably not configured properly.",
-                    "line": null,
-                    "ignorable": false
-                }
-            ]
-        }
-    },
+    "files": [],
     "errors": []
 }
