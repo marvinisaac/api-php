@@ -61,16 +61,21 @@ class SessionCreateTest extends TestCase
 
     public function testRequestWithValidInputShouldReturn200() : void
     {
-        $requestComplete = [
+        $credentials = [
             'username' => $_ENV['TEST_USERNAME'],
             'password' => $_ENV['TEST_PASSWORD'],
         ];
-        $request = $this->helper->prepareRequest('POST', '/session', $requestComplete);
+        $request = $this->helper->prepareRequest('POST', '/session', $credentials);
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
+        $responseBody = json_decode((string)$response->getBody(), true);
+        $responseCookies = $this->helper->parseResponseCookies($response);
         $responseStatus = $response->getStatusCode();
 
         $this->assertSame(200, $responseStatus);
+        $this->assertArrayHasKey('header', $responseCookies);
+        $this->assertArrayHasKey('payload', $responseCookies);
+        $this->assertArrayHasKey('signature', $responseCookies);
     }
 }

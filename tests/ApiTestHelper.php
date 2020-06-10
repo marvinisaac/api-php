@@ -2,11 +2,13 @@
 
     namespace Test;
 
+    use \Slim\Http\Cookies;
     use \Slim\Http\Environment;
     use \Slim\Http\Headers;
     use \Slim\Http\Request;
     use \Slim\Http\RequestBody;
     use \Slim\Http\Uri;
+    use \Psr\Http\Message\ResponseInterface;
 
 class ApiTestHelper
 {
@@ -39,5 +41,21 @@ class ApiTestHelper
         }
         
         return new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+    }
+
+    public function parseResponseCookies(ResponseInterface $response) : array
+    {
+        $responseCookies = $response->getHeader('Set-Cookie');
+        $cookieParser = new Cookies();
+
+        $cookies = [];
+        foreach($responseCookies as $cookie) {
+            foreach($cookieParser->parseHeader($cookie) as $cookieIndex => $cookieValue) {
+                $cookies[$cookieIndex] = $cookieValue;
+                break;
+            }
+        }
+
+        return $cookies;
     }
 }
