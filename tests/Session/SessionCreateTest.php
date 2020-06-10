@@ -1,13 +1,13 @@
 <?php
 
-    namespace Test\User;
+    namespace Test\Session;
 
     use \PHPUnit\Framework\TestCase;
     use \Slim\App;
     use Api\Api;
     use Test\ApiTestHelper as Helper;
 
-class UserCreateTest extends TestCase
+class SessionCreateTest extends TestCase
 {
     protected App $api;
     protected Helper $helper;
@@ -18,32 +18,35 @@ class UserCreateTest extends TestCase
         $_ENV['PHP_ENVIRONMENT'] = 'TEST';
         $this->api = (new Api())->get();
         $this->helper = new Helper();
-        $this->testUsername = 'test' . date('Ymdhi');
+        $this->testUsername = 'test' . time();
     }
 
     public function testRequestWithInvalidInputShouldReturn400() : void
     {
+        $errorMessage = 'Invalid username and password combination.';
         $requestsIncomplete = [
             [
                 'body' => [
                     'username' => '',
                     'passsword' => '',
                 ],
-                'error_message' => 'Missing input: username, password',
             ], [
                 'body' => [
                     'username' => 'test' . time(),
                 ],
-                'error_message' => 'Missing input: password',
             ], [
                 'body' => [
                     'password' => 'password',
                 ],
-                'error_message' => 'Missing input: username',
+            ], [
+                'body' => [
+                    'username' => 'user' . time(),
+                    'passsword' => 'pass' . time(),
+                ],
             ],
         ];
         foreach ($requestsIncomplete as $incomplete) {
-            $request = $this->helper->prepareRequest('POST', '/user', $incomplete['body']);
+            $request = $this->helper->prepareRequest('POST', '/session', $incomplete['body']);
             $this->api->getContainer()['request'] = $request;
             
             $response = $this->api->run(true);
@@ -52,25 +55,27 @@ class UserCreateTest extends TestCase
     
             $this->assertSame(400, $responseStatus);
             $this->assertArrayHasKey('error_message', $responseBody);
-            $this->assertSame($incomplete['error_message'], $responseBody['error_message']);
+            $this->assertSame($errorMessage, $responseBody['error_message']);
         }
     }
 
     public function testRequestWithValidInputShouldReturn200() : void
     {
-        $requestComplete = [
-            'username' => $this->testUsername,
-            'password' => 'password',
+        $credentials = [
+            'username' => $_ENV['TEST_USERNAME'],
+            'password' => $_ENV['TEST_PASSWORD'],
         ];
-        $request = $this->helper->prepareRequest('POST', '/user', $requestComplete);
+        $request = $this->helper->prepareRequest('POST', '/session', $credentials);
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
         $responseBody = json_decode((string)$response->getBody(), true);
+        $responseCookies = $this->helper->parseResponseCookies($response);
         $responseStatus = $response->getStatusCode();
 
         $this->assertSame(200, $responseStatus);
-        $this->assertArrayHasKey('username', $responseBody);
-        $this->assertSame($requestComplete['username'], $responseBody['username']);
+        $this->assertArrayHasKey('header', $responseCookies);
+        $this->assertArrayHasKey('payload', $responseCookies);
+        $this->assertArrayHasKey('signature', $responseCookies);
     }
 }

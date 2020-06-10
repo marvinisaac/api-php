@@ -8,6 +8,8 @@
     use Api\Shared\BaseClass\Mysql;
     use User\User;
     use User\UserModel;
+    use Session\Session;
+    use Session\SessionInput;
 
 final class DependencyInjector
 {
@@ -30,6 +32,11 @@ final class DependencyInjector
             $resource = new User();
             $resource->setDatabase($database);
             return new Input($resource);
+        };
+
+        $container['Session'] = function () {
+            $resource = new Session();
+            return new SessionInput($resource);
         };
 
         return $api;
